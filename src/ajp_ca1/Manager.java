@@ -108,28 +108,70 @@ public class Manager {
         return model;
     }
     
-    String CheckRoute(String boardingCode, String alightingCode)
+    ArrayList CheckRoute(String boardingCode, String alightingCode)
     {
-        // all bus stops, service number
-        HashMap<ArrayList<String>, String> boardingBusesHashMap = new HashMap<>();
-        HashMap<ArrayList<String>, String> alightingBusesHashMap = new HashMap<>();
+        ArrayList<String> serviceArrayList = new ArrayList<>();
+        ArrayList<ArrayList<String>> routeArrayList = new ArrayList<>();
         
         ArrayList<String> dumpArrayList = new ArrayList<>();
         
         boolean isRoute = false;
         int seq = 0;
-        String serviceNum = "";
-        for(Map.Entry<String, SBSService> service : sBSServiceManager.sbsLinkedHashMultimap.entries())
+        
+        for(SBSService service : sBSServiceManager.sbsLinkedHashMultimap.values())
         {
             if(!isRoute)
             {
-                if(service.getValue().bsCode.equals(boardingCode))
+                if(service.bsCode.equals(boardingCode))
                 {
                     isRoute = true;
                     
-                    seq = service.getValue().sequence;
-                    serviceNum = service.getValue().servNum;
                     dumpArrayList.clear();
+                    seq = service.sequence;
+                    
+                    System.out.println(service.servNum);
+                    serviceArrayList.add(service.servNum);
+                    dumpArrayList.add(service.bsCode);
+                    /*
+                    seq = service.sequence;
+                    serviceArrayList.add(service.servNum);
+                    dumpArrayList.add(service.bsCode);
+                                    
+                    System.out.println(service.servNum);                    
+                    System.out.println(service.bsCode);                    
+                    */
+                }   
+            }
+            else
+            {
+                if(seq < service.sequence)
+                {
+                    seq = service.sequence;
+                    dumpArrayList.add(service.bsCode);
+                }
+                else
+                {
+                    isRoute = false;
+                    System.out.println(dumpArrayList);
+                    routeArrayList.add(dumpArrayList);
+                }
+            }
+        }
+                
+        /*
+        for(String serviceNum : sBSServiceManager.sbsLinkedHashMultimap.keySet())
+        {
+            if(!isRoute)
+            {
+                Set<SBSService> dumpHashSet = sBSServiceManager.sbsLinkedHashMultimap.get(serviceNum);
+                
+                if(service.getValue().bsCode.equals(boardingCode))
+                {
+                    isRoute = true;
+                    dumpArrayList.clear();
+                    
+                    seq = service.getValue().sequence;
+                    serviceArrayList.add(service.getValue().servNum);
                     dumpArrayList.add(service.getValue().bsCode);
                 }   
             }
@@ -144,13 +186,13 @@ public class Manager {
                 {
                     isRoute = false;
                     
-                    boardingBusesHashMap.put(dumpArrayList, serviceNum);
+                    routeArrayList.add(dumpArrayList);
                 }
             }
         }
-        
+        */
         isRoute = false;
-        
+        /*
         for(Map.Entry<String, SBSService> service : sBSServiceManager.sbsLinkedHashMultimap.entries())
         {
             if(!isRoute)
@@ -181,10 +223,9 @@ public class Manager {
             }
         }
         
-        System.out.println(boardingBusesHashMap.size());
-        System.out.println(alightingBusesHashMap.size());
         boolean isTransferable = false;
         String transferStop = "";
+        ArrayList stuff = new ArrayList();
         
         outerloop:        
         for(Map.Entry<ArrayList<String>, String> boardingBusEntry : boardingBusesHashMap.entrySet())
@@ -197,14 +238,19 @@ public class Manager {
                     {
                         if(boardingStop.equals(alightingStop))
                         {
-                            transferStop = boardingBusEntry.getValue();
+                            stuff.add(boardingBusEntry.getValue());
+                            stuff.add(alightingBusEntry.getValue());
+                            stuff.add(boardingBusEntry.getKey());
+                            stuff.add(alightingBusEntry.getKey());
+                            transferStop = boardingBusEntry.getValue() + ", " + alightingBusEntry.getValue();
                             break outerloop;
                         }
                     }
                 }
             }
         }
+*/
         
-        return transferStop;
+        return null;
     }
 }
