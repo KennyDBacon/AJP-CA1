@@ -1,7 +1,7 @@
 package ajp_ca1;
 
-import com.google.common.collect.LinkedHashMultimap;
 import java.io.*;
+import java.util.*;
 
 /**
  *
@@ -10,11 +10,12 @@ import java.io.*;
 public class SBSServiceManager {
     String fileSBSService = "data\\lta-sbst_route.csv";
     
-    LinkedHashMultimap<String, SBSService> sbsLinkedHashMultimap;
+    Map<String, SBSService> sbsHashMap;
+    //HashMap<String, SBSService> sbsHashMap = new HashMap<>();
     
     public SBSServiceManager()
     {
-        sbsLinkedHashMultimap = LinkedHashMultimap.create();
+        sbsHashMap = new LinkedHashMap();
     }
     
     void Setup() throws IOException
@@ -31,9 +32,10 @@ public class SBSServiceManager {
             int dir = Integer.parseInt(data[1]);
             int seq = Integer.parseInt(data[2]);
             
+            String key = data[0] + "," + data[3];
             SBSService sbsService = new SBSService(data[0], dir, seq, data[3], data[4]);
             
-            sbsLinkedHashMultimap.put(data[0], sbsService);
+            sbsHashMap.put(key, sbsService);
         }
     }
 }

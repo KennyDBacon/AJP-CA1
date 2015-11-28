@@ -145,7 +145,7 @@ public class RouteSearchFrame extends javax.swing.JFrame {
             int index = list.locationToIndex(evt.getPoint());
 
             DefaultListModel model = new DefaultListModel();
-            model = mainMenu.manager.SearchRouteOfService(services.get(index).servNum);
+            model = mainMenu.manager.ShowRouteOfService(services.get(index).servNum);
 
             listRoute.setModel(model);
         }

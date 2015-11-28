@@ -8,7 +8,6 @@ package ajp_ca1;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.DefaultListModel;
 
 /**
  *
@@ -22,7 +21,6 @@ public class CustomRouteSearchFrame extends javax.swing.JFrame {
      */
     public CustomRouteSearchFrame() {
         initComponents();
-        setLocationRelativeTo(null);
     }
 
     /**
@@ -37,16 +35,13 @@ public class CustomRouteSearchFrame extends javax.swing.JFrame {
         tfBoarding = new javax.swing.JTextField();
         tfAlighting = new javax.swing.JTextField();
         btnTransferSearch = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listTestA = new javax.swing.JList<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listTestB = new javax.swing.JList<>();
+        lblTest = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tfBoarding.setText("78111");
+        tfBoarding.setText("14081");
 
-        tfAlighting.setText("14121");
+        tfAlighting.setText("18011");
 
         btnTransferSearch.setText("Search");
         btnTransferSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -55,28 +50,24 @@ public class CustomRouteSearchFrame extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.setViewportView(listTestA);
-
-        jScrollPane2.setViewportView(listTestB);
+        lblTest.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblTest.setText("-");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(tfAlighting, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tfBoarding, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(85, 85, 85)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTest)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnTransferSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfAlighting, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfBoarding, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnTransferSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -89,39 +80,15 @@ public class CustomRouteSearchFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfAlighting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addContainerGap())
+                .addComponent(lblTest)
+                .addContainerGap(409, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTransferSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferSearchActionPerformed
-        ArrayList stuff = mainMenu.manager.CheckRoute(tfBoarding.getText(), tfAlighting.getText());
-        
-        DefaultListModel modelA = new DefaultListModel();
-        DefaultListModel modelB = new DefaultListModel();
-        
-        modelA.addElement(stuff.get(0));
-        modelB.addElement(stuff.get(1));
-        
-        ArrayList<String> stringA = (ArrayList<String>)stuff.get(2);
-        ArrayList<String> stringB = (ArrayList<String>)stuff.get(3);
-        
-        for(String s : stringA)
-        {
-            modelA.addElement(s);
-        }
-        
-        for(String s : stringB)
-        {
-            modelB.addElement(s);
-        }
-        
-        listTestA.setModel(modelA);
-        listTestB.setModel(modelB);
+        lblTest.setText(mainMenu.manager.CheckAvailableRoute(tfBoarding.getText(), tfAlighting.getText()));
     }//GEN-LAST:event_btnTransferSearchActionPerformed
 
     /**
@@ -161,10 +128,7 @@ public class CustomRouteSearchFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTransferSearch;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList<String> listTestA;
-    private javax.swing.JList<String> listTestB;
+    private javax.swing.JLabel lblTest;
     private javax.swing.JTextField tfAlighting;
     private javax.swing.JTextField tfBoarding;
     // End of variables declaration//GEN-END:variables

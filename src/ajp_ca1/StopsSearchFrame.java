@@ -199,7 +199,7 @@ public class StopsSearchFrame extends javax.swing.JFrame {
             int index = list.locationToIndex(evt.getPoint());
             
             DefaultListModel model = new DefaultListModel();
-            model = mainMenu.manager.SearchByServiceNum(busStops.get(index).bsCode);
+            model = mainMenu.manager.ShowServicesOfStop(busStops.get(index).bsCode);
             
             listServices.setModel(model);
         }
