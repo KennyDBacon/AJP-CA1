@@ -21,6 +21,7 @@ public class CustomRouteSearchFrame extends javax.swing.JFrame {
      */
     public CustomRouteSearchFrame() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -39,9 +40,9 @@ public class CustomRouteSearchFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tfBoarding.setText("14081");
+        tfBoarding.setText("66009");
 
-        tfAlighting.setText("18011");
+        tfAlighting.setText("17101");
 
         btnTransferSearch.setText("Search");
         btnTransferSearch.addActionListener(new java.awt.event.ActionListener() {

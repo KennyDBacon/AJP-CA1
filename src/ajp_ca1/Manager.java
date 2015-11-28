@@ -10,17 +10,18 @@ import javax.swing.DefaultListModel;
  */
 public class Manager {
     BusStopManager busStopManager;
-    SBSServiceManager sBSServiceManager;
+    BusServiceManager busServiceManager;
     
     public Manager() throws IOException
     {
         busStopManager = new BusStopManager();
-        sBSServiceManager = new SBSServiceManager();
+        busServiceManager = new BusServiceManager();
         
         busStopManager.Setup();
-        sBSServiceManager.Setup();
+        busServiceManager.Setup();
     }
         
+    // -- > //
     ArrayList<BusStop> SearchByStopDescription(String query)
     {
         String currentBusStop = "";
@@ -44,30 +45,32 @@ public class Manager {
     DefaultListModel ShowServicesOfStop(String busStopCode)
     {
         DefaultListModel model = new DefaultListModel();
-        for(Map.Entry<String, SBSService> sbsEntry : sBSServiceManager.sbsHashMap.entrySet())
+        for(Map.Entry<String, BusService> busEntry : busServiceManager.serviceHashMap.entrySet())
         {
-            if(sbsEntry.getValue().bsCode.equals(busStopCode))
+            if(busEntry.getValue().bsCode.equals(busStopCode))
             {
-                model.addElement(sbsEntry.getValue().servNum);
+                model.addElement(busEntry.getValue().servNum + " (" + busEntry.getValue().busType + ")");
             }
         }
         
         return model;
     }
     
-    ArrayList<SBSService> SearchByServicesNumber(String query)
+    // -- > //
+    
+    ArrayList<BusService> SearchByServicesNumber(String query)
     {
         boolean isNew = true;
-        ArrayList<SBSService> services = new ArrayList<>();
-        for(Map.Entry<String, SBSService> sbsEntry : sBSServiceManager.sbsHashMap.entrySet())
+        ArrayList<BusService> services = new ArrayList<>();
+        for(Map.Entry<String, BusService> busEntry : busServiceManager.serviceHashMap.entrySet())
         {
-            if(sbsEntry.getValue().servNum.contains(query))
+            if(busEntry.getValue().servNum.contains(query))
             {
                 isNew = true;
                 
-                for(SBSService service : services)
+                for(BusService service : services)
                 {
-                    if(sbsEntry.getValue().servNum.equals(service.servNum))
+                    if(busEntry.getValue().servNum.equals(service.servNum))
                     {
                         isNew = false;
                         break;
@@ -76,7 +79,7 @@ public class Manager {
                 
                 if(isNew)
                 {
-                    services.add(sbsEntry.getValue());
+                    services.add(busEntry.getValue());
                 }
             }
         }
@@ -92,17 +95,15 @@ public class Manager {
         DefaultListModel model = new DefaultListModel();
         
         String[] data;
-        SBSService sbs;
-        //for(Map.Entry<String, SBSService> sbsEntry : sBSServiceManager.sbsHashMap.entrySet())
-        for(String keyString : sBSServiceManager.sbsHashMap.keySet())
+        BusService busService;
+        for(String keyString : busServiceManager.serviceHashMap.keySet())
         {
             data = keyString.split(",");
-            //if(sbsEntry.getValue().servNum.equals(serviceNum))
             if(data[0].equals(serviceNum))
             {
-                sbs = sBSServiceManager.sbsHashMap.get(keyString);
+                busService = busServiceManager.serviceHashMap.get(keyString);
                 
-                if(sbs.direction == 1)
+                if(busService.direction == 1)
                     route = "Route 1";
                 else
                     route = "Route 2";
@@ -114,14 +115,16 @@ public class Manager {
                 model.addElement(busStopManager.busStopHashMap.get(sbsEntry.getValue().bsCode).bsDesc);
                 */
                 
-                currentSeq = sbs.sequence;
+                currentSeq = busService.sequence;
                 
-                model.addElement(sbs.bsCode + " - " + busStopManager.busStopHashMap.get(sbs.bsCode).bsDesc + " (" + route + ")");
+                model.addElement(busService.bsCode + " - " + busStopManager.busStopHashMap.get(busService.bsCode).bsDesc + " (" + route + ")");
             }
         }
         
         return model;
     }
+    
+    // -- > //
     
     String CheckAvailableRoute(String boardingCode, String alightingCode)
     {
@@ -137,7 +140,8 @@ public class Manager {
             case 1: announceText = "Direct service available. Take bus no." + option.get(1);
                 return announceText;
             // Transferable
-            case 2: announceText = "<html>No direct service. Require one transfer to reach destination.<br>Take bus no." + option.get(1) + " and transfer at " + option.get(2) + "</html>";
+            case 2: announceText = "<html>No direct service. Require one transfer to reach destination.<br>"
+                                 + "Take bus no." + option.get(1) + " and transfer at " + option.get(2) + ", then take " + option.get(3) + ".</html>";
                 return announceText;
             // Not transferable
             case 3: announceText = "No service is available";
@@ -167,25 +171,37 @@ public class Manager {
             String[] keyString;
             
             // Get all available boarding bus
-            for(String sbsKeySet : sBSServiceManager.sbsHashMap.keySet())
+            for(String busString : busServiceManager.serviceHashMap.keySet())
             {
-                keyString = sbsKeySet.split(",");
+                if(busServiceManager.serviceHashMap.get(busString).bsCode.equals(boardingCode))
+                {
+                    GetBoardingBus(busString);
+                }
+                
+                /*
+                keyString = busString.split(",");
 
                 if(keyString[1].equals(boardingCode))
                 {
-                    GetBoardingBus(sbsKeySet);
-                }
+                    GetBoardingBus(busString);
+                }*/
             }
 
             // Get all available destination bus
-            for(String sbsKeySet : sBSServiceManager.sbsHashMap.keySet())
+            for(String busString : busServiceManager.serviceHashMap.keySet())
             {
-                keyString = sbsKeySet.split(",");
+                if(busServiceManager.serviceHashMap.get(busString).bsCode.equals(alightingCode))
+                {
+                    GetAlightingBus(busString);
+                }
+                
+                /*
+                keyString = busString.split(",");
 
                 if(keyString[1].equals(alightingCode))
                 {
-                    GetAlightingBus(keyString, sBSServiceManager.sbsHashMap.get(sbsKeySet).direction);
-                }
+                    GetAlightingBus(keyString, busServiceManager.serviceHashMap.get(busString).direction);
+                }*/
             }
             
             // Check if direct bus is available
@@ -218,11 +234,16 @@ public class Manager {
                             {
                                 infoList.add(2);
 
-                                // Add the service bus number
-                                infoList.add(alightingLine.getKey());
+                                String[] data = boardingLine.getKey().split(",");
+                                // Add boarding service bus number
+                                infoList.add(data[0]);
 
                                 // Add the transfer stop code
                                 infoList.add(boardingStop);
+                                
+                                data = alightingLine.getKey().split(",");
+                                // Add transfer bus number
+                                infoList.add(data[0]);
 
                                 return infoList;
                             }
@@ -245,59 +266,64 @@ public class Manager {
         String prevServNum = "";
         int tempSeq = 0;
         
-        for(Map.Entry<String, SBSService> boardSbsEntry : sBSServiceManager.sbsHashMap.entrySet())
+        for(Map.Entry<String, BusService> boardEntry : busServiceManager.serviceHashMap.entrySet())
         {
             if(!isRoute)
             {
-                if(boardSbsEntry.getKey().equals(key))
+                if(boardEntry.getKey().equals(key))
                 {
                     isRoute = true;
-                    prevServNum = boardSbsEntry.getValue().servNum;
-                    tempSeq = boardSbsEntry.getValue().sequence;
+                    //prevServNum = boardEntry.getValue().servNum;
+                    tempSeq = boardEntry.getValue().sequence;
                 }
             }
             else
             {
-                if(tempSeq < boardSbsEntry.getValue().sequence)
+                if(tempSeq < boardEntry.getValue().sequence)
                 {
-                    busStops.add(boardSbsEntry.getValue().bsCode);
+                    busStops.add(boardEntry.getValue().bsCode);
 
-                    prevServNum = boardSbsEntry.getValue().servNum;
-                    tempSeq = boardSbsEntry.getValue().sequence;
+                    //prevServNum = boardEntry.getValue().servNum;
+                    tempSeq = boardEntry.getValue().sequence;
                 }
                 else
                 {
-                    boardingBusesHashMap.put(prevServNum, busStops);
+                    if(!busStops.isEmpty())
+                    {
+                        boardingBusesHashMap.put(key, busStops);
+                    }
+                    
                     break;
                 }
             }
         }
     }
     
-    void GetAlightingBus(String[] keyString, int direction)
+    void GetAlightingBus(String keyString)
     {
         ArrayList<String> busStops = new ArrayList<>();
         
+        String[] key = keyString.split(",");
         String[] tempKey;
-        for(Map.Entry<String, SBSService> alightSbsEntry : sBSServiceManager.sbsHashMap.entrySet())
+        for(Map.Entry<String, BusService> alightEntry : busServiceManager.serviceHashMap.entrySet())
         {
-            tempKey = alightSbsEntry.getKey().split(",");
+            tempKey = alightEntry.getKey().split(",");
             
-            // If NO, check if service number is the right service number
-            if(tempKey[0].equals(keyString[0]))
+            // check if service number is the right service number
+            if(tempKey[0].equals(key[0]))
             {
                 // If YES, check if going the right direction
-                if(alightSbsEntry.getValue().direction == direction)
+                if(alightEntry.getValue().direction == Integer.parseInt(key[2]))
                 {
                     // Check if the current bus stop is the alighting number
-                    if(tempKey[1].equals(keyString[1]))
+                    if(tempKey[1].equals(key[1]))
                     {
-                        alightingBusesHashMap.put(keyString[0], busStops);
+                        alightingBusesHashMap.put(keyString, busStops);
                         break;
                     }
                     else
                     {
-                        busStops.add(alightSbsEntry.getValue().bsCode);
+                        busStops.add(alightEntry.getValue().bsCode);
                     }
                 }
             }
