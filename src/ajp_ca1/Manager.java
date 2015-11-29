@@ -153,13 +153,13 @@ public class Manager {
     
     HashMap<String, ArrayList<String>> boardingBusesHashMap;
     HashMap<String, ArrayList<String>> alightingBusesHashMap;
-    private ArrayList CheckRoute(String boardingCode, String alightingCode)
+    ArrayList<String> CheckRoute(String boardingCode, String alightingCode)
     {
-        ArrayList infoList = new ArrayList();
+        ArrayList<String> infoList = new ArrayList<>();
         
         if(boardingCode.equals(alightingCode))
         {
-            infoList.add(0);
+            infoList.add("0");
             
             return infoList;
         }
@@ -177,14 +177,6 @@ public class Manager {
                 {
                     GetBoardingBus(busString);
                 }
-                
-                /*
-                keyString = busString.split(",");
-
-                if(keyString[1].equals(boardingCode))
-                {
-                    GetBoardingBus(busString);
-                }*/
             }
 
             // Get all available destination bus
@@ -194,14 +186,6 @@ public class Manager {
                 {
                     GetAlightingBus(busString);
                 }
-                
-                /*
-                keyString = busString.split(",");
-
-                if(keyString[1].equals(alightingCode))
-                {
-                    GetAlightingBus(keyString, busServiceManager.serviceHashMap.get(busString).direction);
-                }*/
             }
             
             // Check if direct bus is available
@@ -211,7 +195,7 @@ public class Manager {
                 {
                     if(boardingBusKey.equals(alightingBusKey))
                     {
-                        infoList.add(1);
+                        infoList.add("1");
                         
                         // Add the direct service bus number
                         infoList.add(boardingBusKey);
@@ -232,14 +216,22 @@ public class Manager {
                         {
                             if(boardingStop.equals(alightingStop))
                             {
-                                infoList.add(2);
+                                infoList.add("2");
 
                                 String[] data = boardingLine.getKey().split(",");
                                 // Add boarding service bus number
                                 infoList.add(data[0]);
 
                                 // Add the transfer stop code
-                                infoList.add(boardingStop);
+                                // Note: for testing transfer, use 66009 as boarding and 17101 as alighting
+                                for(BusStop busStop : busStopManager.busStopHashMap.values())
+                                {
+                                    if(busStop.bsCode.equals(boardingStop))
+                                    {
+                                        infoList.add(busStop.bsDesc);
+                                        break;
+                                    }
+                                }
                                 
                                 data = alightingLine.getKey().split(",");
                                 // Add transfer bus number
@@ -252,7 +244,7 @@ public class Manager {
                 }
             }
             
-            infoList.add(3);
+            infoList.add("3");
             
             return infoList;
         }

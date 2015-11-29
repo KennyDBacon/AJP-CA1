@@ -5,9 +5,9 @@
  */
 package ajp_ca1;
 
+import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -19,7 +19,9 @@ public class CustomRouteSearchFrame extends javax.swing.JFrame {
     /**
      * Creates new form CustomRouteSearchFrame
      */
+    int borderWidth = 4;
     public CustomRouteSearchFrame() {
+        getRootPane().setBorder(BorderFactory.createMatteBorder(borderWidth, borderWidth, borderWidth, borderWidth, Color.gray));
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -36,13 +38,19 @@ public class CustomRouteSearchFrame extends javax.swing.JFrame {
         tfBoarding = new javax.swing.JTextField();
         tfAlighting = new javax.swing.JTextField();
         btnTransferSearch = new javax.swing.JButton();
-        lblTest = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        lblInfo = new javax.swing.JLabel();
+        lblBoardingBus = new javax.swing.JLabel();
+        lblTransferStation = new javax.swing.JLabel();
+        lblTransferBus = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        tfBoarding.setText("66009");
-
-        tfAlighting.setText("17101");
+        setMinimumSize(new java.awt.Dimension(554, 166));
+        setUndecorated(true);
+        setResizable(false);
 
         btnTransferSearch.setText("Search");
         btnTransferSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -51,46 +59,161 @@ public class CustomRouteSearchFrame extends javax.swing.JFrame {
             }
         });
 
-        lblTest.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblTest.setText("-");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Alighting Station");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Boarding Station");
+
+        lblInfo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblInfo.setPreferredSize(new java.awt.Dimension(0, 25));
+
+        lblBoardingBus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblBoardingBus.setPreferredSize(new java.awt.Dimension(0, 25));
+
+        lblTransferStation.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblTransferStation.setPreferredSize(new java.awt.Dimension(0, 25));
+
+        lblTransferBus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblTransferBus.setPreferredSize(new java.awt.Dimension(0, 25));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTransferStation, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                    .addComponent(lblInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblBoardingBus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTransferBus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblBoardingBus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblTransferStation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblTransferBus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(85, 85, 85)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTest)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfAlighting, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfBoarding, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnTransferSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(184, Short.MAX_VALUE))
+                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(tfBoarding, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfAlighting, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTransferSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnTransferSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(tfBoarding, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfAlighting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTest)
-                .addContainerGap(409, Short.MAX_VALUE))
+                        .addComponent(tfBoarding, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfAlighting, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnTransferSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private ArrayList<String> infoList = new ArrayList<>();
+    
+    String txtNoDefault = "Please enter ";
+    String txtNoBoarding = "boarding";
+    String txtNoAlighting = "destination";
+    
     private void btnTransferSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferSearchActionPerformed
-        lblTest.setText(mainMenu.manager.CheckAvailableRoute(tfBoarding.getText(), tfAlighting.getText()));
+        String info = "";
+        
+        if(tfBoarding.getText().isEmpty())
+        {
+            info = txtNoDefault + txtNoBoarding + " stop";
+        }
+        
+        if(tfAlighting.getText().isEmpty())
+        {
+            if(info.isEmpty())
+            {
+                info = txtNoDefault + txtNoAlighting + " stop.";
+            }
+            else
+            {
+                info += " and " + txtNoAlighting + " stop.";
+            }
+        }
+        else
+        {
+            info += ".";
+        }
+        
+        if(info.isEmpty())
+        {
+            infoList = mainMenu.manager.CheckRoute(tfBoarding.getText(), tfAlighting.getText());
+            
+            switch(Integer.parseInt(infoList.get(0)))
+            {
+                case 0: lblInfo.setText("The boarding and destination stop is the same.");
+                    break;
+                case 1: lblInfo.setText("Direct service is available.");
+                        lblBoardingBus.setText("Take bus number " + infoList.get(1) + ".");
+                    break;
+                case 2: lblInfo.setText("No direct service. One transfer is required.");
+                        lblBoardingBus.setText("Take bus number " + infoList.get(1) + ".");
+                        lblTransferStation.setText("Alight at " + infoList.get(2) + ".");
+                        lblTransferBus.setText("Take bus number " + infoList.get(3) + ".");
+                    break;
+                case 3: lblInfo.setText("No service is available between these stops.");
+                    break;
+            }
+        }
+        else
+        {
+            lblInfo.setText(info);
+        }
     }//GEN-LAST:event_btnTransferSearchActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        mainMenu.setVisible(true);
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -128,8 +251,15 @@ public class CustomRouteSearchFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnTransferSearch;
-    private javax.swing.JLabel lblTest;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblBoardingBus;
+    private javax.swing.JLabel lblInfo;
+    private javax.swing.JLabel lblTransferBus;
+    private javax.swing.JLabel lblTransferStation;
     private javax.swing.JTextField tfAlighting;
     private javax.swing.JTextField tfBoarding;
     // End of variables declaration//GEN-END:variables
